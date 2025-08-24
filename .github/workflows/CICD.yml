@@ -1,4 +1,4 @@
-name: Test and Deploy Node.js App
+name: Assignment for Ostad Training
 
 on:
   push:
@@ -7,57 +7,57 @@ on:
 
 jobs:
   test:
-    name: 🧪 Run Tests
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: 🟢 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: 📦 Install Dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: ✅ Run Tests
+      - name: Run Tests
         run: |
           npm run check > test-results.txt
 
-      - name: 📤 Upload Test Results
+      - name: Upload Test Results
         uses: actions/upload-artifact@v3
         with:
           name: test-results
           path: test-results.txt
 
   deploy:
-    name: 🚀 Deploy Application
+    name: Deploy Application
     runs-on: [self-hosted, ubuntu_24]
     needs: test
 
     steps:
-      - name: 📥 Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: 📥 Download Test Results
+      - name: Download Test Results
         uses: actions/download-artifact@v3
         with:
           name: test-results
 
-      - name: 📄 Display Test Results
+      - name: Display Test Results
         run: cat test-results.txt
 
-      - name: 🔧 Install Dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: 🧹 Cleanup Existing PM2 Process
+      - name: Cleanup Existing PM2 Process
         run: pm2 delete node-app || true
 
-      - name: 🚀 Start Application with PM2
+      - name: Start Application with PM2
         run: pm2 start "./src/server.js" --name node-app
 
-      - name: 💾 Save PM2 Process List
+      - name: Save PM2 Process List
         run: pm2 save
 
