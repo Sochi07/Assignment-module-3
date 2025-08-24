@@ -35,7 +35,7 @@ jobs:
       - name: Remove problematic VS Code repository
         run: |
           sudo rm -f /etc/apt/sources.list.d/vscode.list
-          
+
       - name: Install Node.js and npm
         run: |
           sudo apt update
@@ -53,6 +53,9 @@ jobs:
         run: cat test-results.txt
       - name: Install Dependencies
         run: npm install
+
+      - name: Install PM2
+        run: npm install -g pm2
 
       - name: Cleanup Existing PM2 Process
         run: pm2 delete node-app || true
