@@ -34,7 +34,9 @@ jobs:
     steps: # <-- Only one steps key for the deploy job
       - name: Add Microsoft GPG key
         run: |
-          curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
+          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+          sudo rm microsoft.gpg
 
     
       - name: Install Node.js and npm
