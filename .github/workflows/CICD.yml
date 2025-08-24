@@ -32,10 +32,10 @@ jobs:
     runs-on: [self-hosted, ubuntu_24]
     needs: test
     steps: # <-- Only one steps key for the deploy job
-      - name: Add Microsoft GPG key
+      - name: Remove problematic VS Code repository
         run: |
-          curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null   
-      
+          sudo rm -f /etc/apt/sources.list.d/vscode.list
+          
       - name: Install Node.js and npm
         run: |
           sudo apt update
